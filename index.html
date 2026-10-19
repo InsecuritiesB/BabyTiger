@@ -41,10 +41,112 @@ section{display:none;min-height:calc(100vh - 105px);align-items:center;justify-c
 <section id="four"><div class="final"><div class="flower-card"><div class="flower-label">02 / the question</div><div class="flower closed" id="flower" tabindex="0" role="button" aria-label="Tap the flower to open it"><div class="stem"></div><div class="leaf"></div><div class="leaf r"></div><div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div><div class="core"></div></div><div class="hint" id="hint">tap the flower 🌷</div><div class="question" id="question"><h2>Will you be my girlfriend?</h2><p>No perfect speech. No complicated explanation. Just me being honest about what I want.</p><div class="choices"><button class="choice yes" id="yes">yes, you idiot ♡</button><button class="choice no" id="no">hmm… no</button></div><div class="no-hint" id="noHint" aria-live="polite"></div><button class="real-no" id="realNo">I really mean no</button></div><div class="result" id="result"><div class="emoji">🥹🌷</div><h2>okay, it's a date.</h2><p>I don't know exactly where this road takes us, but I'm really happy I get to find out with you.</p><p class="ps">P.S. You still owe me another beach date. 😂❤️</p></div></div></div></section>
 </div><div class="confetti" id="confetti"></div>
 <script>
-(()=>{const $=s=>document.querySelector(s),sections=[...document.querySelectorAll('section')];function go(id){sections.forEach(x=>x.classList.toggle('active',x.id===id));window.scrollTo({top:0,behavior:'smooth'})}document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
-const flower=$('#flower'),hint=$('#hint'),q=$('#question');function bloom(){if(!flower.classList.contains('open')){flower.classList.remove('closed');flower.classList.add('open');hint.textContent='okay… here we go';setTimeout(()=>q.classList.add('show'),520)}}flower.addEventListener('click',bloom);flower.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();bloom()}});
-const no=$('#no'),noHint=$('#noHint'),realNo=$('#realNo'),yes=$('#yes'),result=$('#result');let noTries=0;const noMessages=['are you sure? 😭','pookie… please 😂','the button is getting nervous now','okay, I see what you're trying to do 😭'];function dodgeNo(){if(noTries>=3){realNo.classList.add('show');noHint.textContent='Okay, okay. If you genuinely mean it, you can say no. ❤️';return}noTries++;const pad=16;const rect=no.getBoundingClientRect();const maxX=Math.max(pad,window.innerWidth-rect.width-pad);const maxY=Math.max(110,window.innerHeight-rect.height-pad);no.style.position='fixed';no.style.left=(pad+Math.random()*(maxX-pad))+'px';no.style.top=(110+Math.random()*(maxY-110-pad))+'px';no.style.zIndex='20';noHint.textContent=noMessages[noTries-1];}['mouseenter','touchstart'].forEach(evt=>no.addEventListener(evt,e=>{if(evt==='touchstart')e.preventDefault();dodgeNo()}));no.addEventListener('click',dodgeNo);realNo.addEventListener('click',()=>{q.classList.remove('show');result.classList.add('show');result.querySelector('h2').textContent='okay. I hear you.';result.querySelector('p').textContent='Thank you for being honest with me. ❤️';result.querySelector('.ps').textContent='No awkwardness. No pressure. Still glad you’re you.';no.style.display='none';realNo.style.display='none';noHint.textContent=''});yes.addEventListener('click',()=>{q.classList.remove('show');result.classList.add('show')});
-let tries=0;$('#no').addEventListener('click',()=>{tries++;const b=$('#no');if(tries===1)b.textContent='are you sure? 😭';else if(tries===2)b.textContent='think again 😂';else{b.textContent='okay okay 😭';b.style.transform=`translate(${Math.random()*44-22}px,${Math.random()*20-10}px)`}});
-$('#yes').addEventListener('click',()=>{q.classList.remove('show');$('#result').classList.add('show');confetti()});function confetti(){const c=$('#confetti'),colors=['#743b48','#c9797e','#b28b52','#e7b8b4','#8d7167'];for(let i=0;i<58;i++){const p=document.createElement('i');p.className='piece';p.style.left=Math.random()*100+'%';p.style.background=colors[i%colors.length];p.style.setProperty('--x',(Math.random()*280-140)+'px');p.style.animationDelay=Math.random()*.55+'s';p.style.transform=`rotate(${Math.random()*90}deg)`;c.appendChild(p);setTimeout(()=>p.remove(),4200)}}})();
-</script>
-</body></html>
+  (() => {
+    const $ = s => document.querySelector(s),
+          sections = [...document.querySelectorAll('section')];
+
+    function go(id) {
+      sections.forEach(x => x.classList.toggle('active', x.id === id));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('[data-go]').forEach(b => {
+      b.addEventListener('click', () => go(b.dataset.go));
+    });
+
+    const flower = $('#flower'),
+          hint = $('#hint'),
+          q = $('#question');
+
+    function bloom() {
+      if (!flower.classList.contains('open')) {
+        flower.classList.remove('closed');
+        flower.classList.add('open');
+        hint.textContent = 'okay… here we go';
+        setTimeout(() => q.classList.add('show'), 520);
+      }
+    }
+
+    flower.addEventListener('click', bloom);
+    flower.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        bloom();
+      }
+    });
+
+    const no = $('#no'),
+          noHint = $('#noHint'),
+          realNo = $('#realNo'),
+          yes = $('#yes'),
+          result = $('#result');
+
+    let noTries = 0;
+    const noMessages = [
+      'are you sure? 😭',
+      'pookie… please 😂',
+      'the button is getting nervous now',
+      'okay, I see what you’re trying to do 😭'
+    ];
+
+    function dodgeNo() {
+      if (noTries >= 3) {
+        realNo.classList.add('show');
+        noHint.textContent = 'Okay, okay. If you genuinely mean it, you can say no. ❤️';
+        return;
+      }
+      noTries++;
+      const pad = 16;
+      const rect = no.getBoundingClientRect();
+      const maxX = Math.max(pad, window.innerWidth - rect.width - pad);
+      const maxY = Math.max(110, window.innerHeight - rect.height - pad);
+      no.style.position = 'fixed';
+      no.style.left = (pad + Math.random() * (maxX - pad)) + 'px';
+      no.style.top = (110 + Math.random() * (maxY - 110 - pad)) + 'px';
+      no.style.zIndex = '20';
+      noHint.textContent = noMessages[noTries - 1];
+    }
+
+    ['mouseenter', 'touchstart'].forEach(evt => {
+      no.addEventListener(evt, e => {
+        if (evt === 'touchstart') e.preventDefault();
+        dodgeNo();
+      });
+    });
+
+    no.addEventListener('click', dodgeNo);
+
+    realNo.addEventListener('click', () => {
+      q.classList.remove('show');
+      result.classList.add('show');
+      result.querySelector('h2').textContent = 'okay. I hear you.';
+      result.querySelector('p').textContent = 'Thank you for being honest with me. ❤️';
+      result.querySelector('.ps').textContent = 'No awkwardness. No pressure. Still glad you’re you.';
+      no.style.display = 'none';
+      realNo.style.display = 'none';
+      noHint.textContent = '';
+    });
+
+    yes.addEventListener('click', () => {
+      q.classList.remove('show');
+      result.classList.add('show');
+      confetti();
+    });
+
+    function confetti() {
+      const c = $('#confetti'),
+            colors = ['#743b48', '#c9797e', '#b28b52', '#e7b8b4', '#8d7167'];
+      for (let i = 0; i < 58; i++) {
+        const p = document.createElement('i');
+        p.className = 'piece';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.background = colors[i % colors.length];
+        p.style.setProperty('--x', (Math.random() * 280 - 140) + 'px');
+        p.style.animationDelay = Math.random() * .55 + 's';
+        p.style.transform = `rotate(${Math.random() * 90}deg)`;
+        c.appendChild(p);
+        setTimeout(() => p.remove(), 4200);
+      }
+    }
+  })();
+</script></body></html>
